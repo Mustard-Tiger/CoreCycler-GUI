@@ -256,12 +256,6 @@ The licenses of all included programs remain unaffected by this and retain their
 - CoreTunerX
   https://github.com/CXWorld/CoreTunerX?tab=License-1-ov-file
 
-- PBO2Tuner
-  https://www.overclock.net/threads/corecycler-tool-for-testing-curve-optimizer-settings.1777398/post-29337788
-
-- pbotest
-  https://www.overclock.net/threads/corecycler-tool-for-testing-curve-optimizer-settings.1777398/post-29350110
-
 - IntelVoltageControl
   https://github.com/jamestut/IntelVoltageControl?tab=MIT-1-ov-file
 
