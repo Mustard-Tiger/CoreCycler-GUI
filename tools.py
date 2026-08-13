@@ -1,6 +1,7 @@
 import os
 import subprocess
 import ctypes
+from PyQt6 import QtWidgets
 
 def launch_boost_tester():
     """Launch BoostTester.sp00n.exe from the tools folder."""
@@ -9,19 +10,47 @@ def launch_boost_tester():
     except Exception as e:
         print(f"Error launching BoostTester: {e}")
 
-def launch_pbo2_tuner():
-    """Launch PBO2Tuner.exe from the PBO2Tuner folder within tools."""
-    try:
-        os.startfile(os.path.join('tools', 'PBO2Tuner', 'PBO2Tuner.exe'))
-    except Exception as e:
-        print(f"Error launching PBO2Tuner: {e}")
-
 def launch_intel_voltage_control():
-    """Launch IntelVoltageControl.exe from the IntelVoltageControl folder within tools."""
+    """Show the current Intel FIVR offsets in an elevated, persistent console."""
+    tool_directory = os.path.abspath(os.path.join('tools', 'IntelVoltageControl'))
+    executable = os.path.join(tool_directory, 'IntelVoltageControl.exe')
+
+    if not os.path.isfile(executable):
+        QtWidgets.QMessageBox.critical(
+            None,
+            "Intel Voltage Control Not Found",
+            f"IntelVoltageControl.exe was not found at:\n{executable}",
+        )
+        return
+
     try:
-        os.startfile(os.path.join('tools', 'IntelVoltageControl', 'IntelVoltageControl.exe'))
+        # IntelVoltageControl is a command-line utility rather than an interactive
+        # application. It also needs administrator rights to initialise WinRing0.
+        # Run its read-only `show` command and leave the console open so the user
+        # can read the result and enter another documented command if desired.
+        command = (
+            f'/k ""{executable}" show & echo. & '
+            'echo IntelVoltageControl is a command-line tool. '
+            'See IntelVoltageControl.txt for usage."'
+        )
+        result = ctypes.windll.shell32.ShellExecuteW(
+            None,
+            "runas",
+            "cmd.exe",
+            command,
+            tool_directory,
+            1,
+        )
+        if result <= 32:
+            QtWidgets.QMessageBox.critical(
+                None,
+                "Unable to Start Intel Voltage Control",
+                f"Windows could not open the elevated terminal (error {result}).",
+            )
     except Exception as e:
-        print(f"Error launching IntelVoltageControl: {e}")
+        QtWidgets.QMessageBox.critical(
+            None, "Unable to Start Intel Voltage Control", str(e)
+        )
 
 def launch_apic_ids():
     """Launch APICID.exe from the tools folder in a new terminal window without blocking the GUI."""
@@ -44,6 +73,32 @@ def launch_core_tuner_x():
         os.startfile(os.path.join('tools', 'CoreTunerX.exe'))
     except Exception as e:
         print(f"Error launching CoreTunerX: {e}")
+
+def launch_smu_debug_tool(parent=None):
+    """Launch the advanced SMUDebugTool after an explicit safety warning."""
+    exe_path = os.path.abspath(os.path.join('tools', 'SMUDebugTool', 'SMUDebugTool.exe'))
+    if not os.path.isfile(exe_path):
+        QtWidgets.QMessageBox.critical(
+            parent, "SMU Debug Tool Not Found", f"SMUDebugTool.exe not found at:\n{exe_path}"
+        )
+        return
+
+    answer = QtWidgets.QMessageBox.warning(
+        parent,
+        "Open Advanced Ryzen Tool?",
+        "SMU Debug Tool can directly change Ryzen CPU settings, including Curve "
+        "Optimizer, P-states, scalar and BCLK. Incorrect settings may cause crashes, "
+        "data loss or unsafe operation.\n\nOnly continue if you understand the settings "
+        "you intend to change.",
+        QtWidgets.QMessageBox.StandardButton.Yes |
+        QtWidgets.QMessageBox.StandardButton.Cancel,
+        QtWidgets.QMessageBox.StandardButton.Cancel,
+    )
+    if answer == QtWidgets.QMessageBox.StandardButton.Yes:
+        try:
+            os.startfile(exe_path)
+        except OSError as error:
+            QtWidgets.QMessageBox.critical(parent, "Unable to Start SMU Debug Tool", str(error))
 
 import os
 import ctypes

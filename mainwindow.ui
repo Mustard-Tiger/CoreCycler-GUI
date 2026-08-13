@@ -215,13 +215,13 @@
         <widget class="QLineEdit" name="general_useConfigFile_lineEdit">
          <property name="minimumSize">
           <size>
-           <width>280</width>
+           <width>260</width>
            <height>0</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>220</width>
+           <width>16777215</width>
            <height>16777215</height>
           </size>
          </property>
@@ -237,16 +237,16 @@
         </widget>
        </item>
        <item>
-        <widget class="QToolButton" name="configsFolder_toolButton">
+        <widget class="QPushButton" name="configsFolder_toolButton">
          <property name="minimumSize">
           <size>
-           <width>75</width>
+           <width>88</width>
            <height>0</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>75</width>
+           <width>88</width>
            <height>16777215</height>
           </size>
          </property>
@@ -260,9 +260,15 @@
        </item>
        <item>
         <widget class="QPushButton" name="saveConfig_pushButton">
+         <property name="minimumSize">
+          <size>
+           <width>88</width>
+           <height>0</height>
+          </size>
+         </property>
          <property name="maximumSize">
           <size>
-           <width>75</width>
+           <width>88</width>
            <height>16777215</height>
           </size>
          </property>
@@ -319,7 +325,7 @@
        <rect>
         <x>10</x>
         <y>310</y>
-        <width>174</width>
+        <width>194</width>
         <height>31</height>
        </rect>
       </property>
@@ -339,6 +345,12 @@
        </item>
        <item>
         <widget class="QSpinBox" name="general_maxIterations_spinBox">
+         <property name="minimumSize">
+          <size>
+           <width>70</width>
+           <height>0</height>
+          </size>
+         </property>
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;The max number of iterations. High values are basically unlimited (good for testing overnight).&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Default is 10000&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -357,7 +369,7 @@
        <rect>
         <x>10</x>
         <y>350</y>
-        <width>191</width>
+        <width>221</width>
         <height>31</height>
        </rect>
       </property>
@@ -379,7 +391,7 @@
         <widget class="QSpinBox" name="general_delayBetweenCores_spinBox">
          <property name="maximumSize">
           <size>
-           <width>60</width>
+           <width>85</width>
            <height>16777215</height>
           </size>
          </property>
@@ -530,7 +542,7 @@
        </rect>
       </property>
       <property name="toolTip">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Performs one &amp;quot;full&amp;quot; test run for each core. For prime95, it will run all selected FFT sizes before moving to the next core. For yCruncher, it will run all selected tests (FFT, SFT, SVT) before moving to the next core. For Aida64, it will default to 10m per core. &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Performs one &amp;quot;full&amp;quot; test run for each core. For prime95, it will run all selected FFT sizes before moving to the next core. For y-cruncher, it will run all selected tests (FFT, SFT, SVT) before moving to the next core. For Aida64, it will default to 10m per core. &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="text">
        <string>Auto</string>
@@ -545,7 +557,7 @@
       <property name="geometry">
        <rect>
         <x>160</x>
-        <y>90</y>
+        <y>75</y>
         <width>161</width>
         <height>22</height>
        </rect>
@@ -556,11 +568,30 @@
         <bold>true</bold>
        </font>
       </property>
-      <property name="text">
-       <string>Automatic Test Mode</string>
-      </property>
-     </widget>
-     <widget class="QWidget" name="horizontalLayoutWidget_10">
+     <property name="text">
+      <string>Automatic Test Mode</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="automaticTestMode_reminder_label">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>105</y>
+       <width>441</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255, 213, 74);</string>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Remember to untick &lt;i&gt;Automatic Test Mode&lt;/i&gt; if you are not using it!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QWidget" name="horizontalLayoutWidget_10">
       <property name="geometry">
        <rect>
         <x>30</x>
@@ -595,9 +626,9 @@
      <widget class="QWidget" name="horizontalLayoutWidget_11">
       <property name="geometry">
        <rect>
-        <x>10</x>
+        <x>70</x>
         <y>190</y>
-        <width>210</width>
+        <width>341</width>
         <height>31</height>
        </rect>
       </property>
@@ -617,6 +648,12 @@
        </item>
        <item>
         <widget class="QSpinBox" name="automaticTestMode_maxValue_spinBox">
+         <property name="minimumSize">
+          <size>
+           <width>85</width>
+           <height>0</height>
+          </size>
+         </property>
          <property name="minimum">
           <number>-200</number>
          </property>
@@ -630,9 +667,9 @@
      <widget class="QWidget" name="horizontalLayoutWidget_12">
       <property name="geometry">
        <rect>
-        <x>240</x>
-        <y>190</y>
-        <width>221</width>
+        <x>70</x>
+        <y>230</y>
+        <width>341</width>
         <height>31</height>
        </rect>
       </property>
@@ -651,7 +688,14 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="automaticTestMode_incrementBy_spinBox"/>
+        <widget class="QSpinBox" name="automaticTestMode_incrementBy_spinBox">
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>0</height>
+          </size>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -659,7 +703,7 @@
       <property name="geometry">
        <rect>
         <x>140</x>
-        <y>240</y>
+        <y>275</y>
         <width>201</width>
         <height>51</height>
        </rect>
@@ -685,7 +729,7 @@
       <property name="geometry">
        <rect>
         <x>230</x>
-        <y>300</y>
+        <y>335</y>
         <width>171</width>
         <height>21</height>
        </rect>
@@ -701,7 +745,7 @@
       <property name="geometry">
        <rect>
         <x>140</x>
-        <y>300</y>
+        <y>335</y>
         <width>81</width>
         <height>24</height>
        </rect>
@@ -1009,9 +1053,9 @@
      <widget class="QWidget" name="horizontalLayoutWidget_14">
       <property name="geometry">
        <rect>
-        <x>133</x>
+        <x>105</x>
         <y>370</y>
-        <width>232</width>
+        <width>270</width>
         <height>31</height>
        </rect>
       </property>
@@ -1329,9 +1373,9 @@
      <widget class="QWidget" name="horizontalLayoutWidget_19">
       <property name="geometry">
        <rect>
-        <x>170</x>
+        <x>145</x>
         <y>230</y>
-        <width>160</width>
+        <width>190</width>
         <height>31</height>
        </rect>
       </property>
@@ -1351,6 +1395,12 @@
        </item>
        <item>
         <widget class="QSpinBox" name="aida64_maxMemory_spinBox">
+         <property name="minimumSize">
+          <size>
+           <width>90</width>
+           <height>0</height>
+          </size>
+         </property>
          <property name="suffix">
           <string>%</string>
          </property>
@@ -1420,7 +1470,7 @@
     </widget>
     <widget class="QWidget" name="ycruncher_tab">
      <attribute name="title">
-      <string>yCruncher</string>
+      <string>y-cruncher</string>
      </attribute>
      <widget class="QWidget" name="horizontalLayoutWidget_20">
       <property name="geometry">
@@ -1457,8 +1507,13 @@
           <size>
            <width>75</width>
            <height>0</height>
-          </size>
+         </size>
          </property>
+         <item>
+          <property name="text">
+           <string>Auto (CPU detected)</string>
+          </property>
+         </item>
          <item>
           <property name="text">
            <string>04-P4P</string>
@@ -1544,7 +1599,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Test Mode</string>
+       <string>CPU Binary / Instruction Mode</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -1566,7 +1621,7 @@
        </font>
       </property>
       <property name="text">
-       <string>yCruncher Tests</string>
+       <string>y-cruncher Workload Tests</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -1588,7 +1643,7 @@
        </font>
       </property>
       <property name="text">
-       <string>yCruncher Old Tests</string>
+       <string>y-cruncher Old Workload Tests</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -1679,7 +1734,7 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="2">
+       <item row="1" column="1">
         <widget class="QCheckBox" name="ycruncher_tests_fftv4_checkBox">
          <property name="text">
           <string>FFTv4</string>
@@ -1754,7 +1809,7 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
+       <item row="1" column="0">
         <widget class="QCheckBox" name="ycruncher_old_tests_hnt_checkBox">
          <property name="text">
           <string>HNT</string>
@@ -1899,7 +1954,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>yCruncher Log Wrapper</string>
+       <string>y-cruncher Log Wrapper</string>
       </property>
      </widget>
     </widget>
@@ -1931,21 +1986,14 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
-        <widget class="QPushButton" name="pbo2Tuner_pushButton">
-         <property name="text">
-          <string>PBO2 Tuner</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
+       <item row="0" column="2">
         <widget class="QPushButton" name="apicIds_pushButton">
          <property name="text">
           <string>APIC IDs</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="2">
+       <item row="0" column="1">
         <widget class="QPushButton" name="intelVoltageControl_pushButton">
          <property name="text">
           <string>Intel Voltage Control</string>
@@ -1966,6 +2014,16 @@
          </property>
         </widget>
        </item>
+       <item row="1" column="2">
+        <widget class="QPushButton" name="smuDebugTool_pushButton">
+         <property name="toolTip">
+          <string>Advanced Ryzen CPU configuration utility</string>
+         </property>
+         <property name="text">
+          <string>SMU Debug Tool</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
      <widget class="QPushButton" name="helpers_pushButton">
@@ -1982,17 +2040,20 @@
       </property>
      </widget>
      <widget class="QCheckBox" name="update_enableUpdateCheck_checkBox">
-      <property name="geometry">
-       <rect>
-        <x>190</x>
-        <y>270</y>
-        <width>111</width>
-        <height>22</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Update Check</string>
-      </property>
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>270</y>
+       <width>271</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string>Checks for new CoreCycler engine releases. CoreCycler updates may or may not be compatible with this version of the GUI.</string>
+     </property>
+     <property name="text">
+      <string>Check for CoreCycler Engine Updates</string>
+     </property>
      </widget>
      <widget class="QWidget" name="horizontalLayoutWidget_22">
       <property name="geometry">
@@ -2065,7 +2126,7 @@
        <rect>
         <x>50</x>
         <y>130</y>
-        <width>121</width>
+        <width>161</width>
         <height>31</height>
        </rect>
       </property>
@@ -2079,6 +2140,15 @@
        </item>
        <item>
         <widget class="QSpinBox" name="logging_logLevel_spinBox">
+         <property name="minimumSize">
+          <size>
+           <width>80</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignCenter</set>
+         </property>
          <property name="maximum">
           <number>4</number>
          </property>
@@ -2324,7 +2394,7 @@
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Apply all currently configured settings to the config.ini file.&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;If settings are not applied prior to starting the test, the test will run with whatever settings were last applied to the config file. &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Make sure to apply settings before running test or saving a config file.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="text">
-        <string>Apply</string>
+       <string>Apply Settings</string>
        </property>
       </widget>
      </item>
@@ -2353,7 +2423,7 @@
         </size>
        </property>
        <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Start the test using the currently applied settings. This runs the batch file located in the base directory. Make sure press the Apply button before starting the test.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Validate and apply all current settings, then start CoreCycler.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="text">
         <string>Start</string>
@@ -2461,14 +2531,14 @@
       <item>
        <widget class="QRadioButton" name="general_stressTestProgram_radioButton_ycruncher">
         <property name="text">
-         <string>yCruncher</string>
+         <string>y-cruncher</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QRadioButton" name="general_stressTestProgram_radioButton_ycruncher_old">
         <property name="text">
-         <string>yCruncher Old</string>
+         <string>y-cruncher Old</string>
         </property>
        </widget>
       </item>
