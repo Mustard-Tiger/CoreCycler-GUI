@@ -233,9 +233,9 @@ def save_config_to_file(ui):
             if not file_name.endswith('.ini'):
                 file_name += '.ini'
             
-            # Apply the current settings to config.ini first
-            apply_general_config(ui)
-            print("Applied general config to config.ini")  # Debug output
+            # Apply every tab's current settings to config.ini first
+            apply_all_configs(ui)
+            print("Applied all settings to config.ini")  # Debug output
             
             # Check if source_config exists
             if not os.path.exists(source_config):

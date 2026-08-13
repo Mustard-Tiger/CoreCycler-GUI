@@ -43,6 +43,17 @@ Startup Parameters:
 These parameters are all optional and must be passed before the [option] parameter.
 
 
+Tuning Profile:
+
+    profile:"Saki"
+    profile:"Komari"
+    profile:"Zen4 7950X (NT)"
+
+    Set the tuning profile to be used. The profile names differ by binary.
+    Refer to "Tuning.txt" or the profile option within the program for the list
+    of available profiles. Use the exact string as the profile text.
+
+
 Pause at End of Computation:
 
     pause:1   	Always pause at the end of a computation.
@@ -60,18 +71,6 @@ Skip Warnings:
     skip-warnings
 
     Skip all the startup warnings so you don't need to press ENTER to continue.
-
-
-Set Console Height: (Windows Only)
-
-    height:{height in lines}
-    (Examples: "height:60", "height:100")
-
-    Sets the height of the console window the specified number of lines.
-    This option is used by the HWBOT Submitter to size the window to exactly the
-    expected height of the full output of a computation.
-
-    This option is currently only supported in Windows. It is ignored in Linux.
 
 
 Priority:
@@ -98,11 +97,18 @@ Priority:
 
 Colors:
 
-    colors:1    Enable console colors. (Default)
-    colors:0    Disable console colors.
+    colors:1        Enable console colors.
+    colors:0        Disable console colors.
 
     Colors should be enabled for competitive benchmarking since disabling them
     may give an unfair performance advantage for small computations.
+
+
+Output Log:
+
+    logfile:"output.txt"
+
+    Log all the console output to the specified file.
 
 
 Personally Identifiable Information:
@@ -117,6 +123,56 @@ Personally Identifiable Information:
     Currently, the only PII that y-cruncher can read is the motherboard's
     serial number.
 
+
+Set Console Height: (advanced, Windows Only)
+
+    height:{height in lines}
+    (Examples: "height:60", "height:100")
+
+    Sets the height of the console window the specified number of lines.
+    This option is used by the HWBOT Submitter to size the window to exactly the
+    expected height of the full output of a computation.
+
+    This option is currently only supported on Windows. It is ignored on Linux.
+
+
+Console: (advanced)
+
+    console:winapi          Use Windows API. (Windows only. Default for Windows)
+    console:win-vterm       Use Virtual Terminal for Windows. (Windows only.)
+    console:linux-vterm     Use Virtual Terminal for Linux.
+
+    This option controls the backend to use for console output. This affects
+    how colors and cursor movement are handled.
+
+    The Virtual Terminal options will use ANSI color codes for setting colors.
+    The Windows API option will use "SetConsoleTextAttribute()" for colors.
+    "linux-vterm" can be selected on Windows. It mostly works, but will scramble
+    up any Unicode text.
+
+
+    This option is intended to be used for integration with wrapper programs.
+
+    Users should not need to set this option manually as y-cruncher will
+    usually pick the correct default.
+
+
+Status Lines: (advanced)
+
+    status:none         Do not print the status line until it won't change anymore.
+    status:overwrite    Overwrite the status line when it updates. (default)
+
+    y-cruncher shows status lines that are updated in real-time. However, these
+    updating status lines will screw up the output file if stdout is piped.
+
+    This option allows you suppress the updating status lines so that the piped
+    output is nice and clean.
+
+
+    This option is intended to be used for integration with wrapper programs.
+
+    Users should not need to set this option manually as y-cruncher will
+    usually pick the correct default.
 
 
 
@@ -151,6 +207,7 @@ Benchmark Pi:
 
     {program} bench {size} [-o {output path}]
                            [-od:{output digits}]
+                           [-noSMT]
                            [-TD:{tasks}]
                            [-PF:{framework}]
                            [-MA:{allocator}]
@@ -196,18 +253,16 @@ algorithm disables the rest. Multiple algorithms can be specified.
 
 -D and -TL are measured in seconds.
 
-The valid values for [algorithm] are: BKT, BBP, SFT, SFTv4, SNT, SVT, FFT, FFTv4, NTT63, N63, VSTv3, and VT3.
+The valid values for [algorithm] are: BKT, BBP, SFTv4, SNT, SVT, FFTv4, NTT63, N63, VSTv3, and VT3.
 
 The options N32, N64, HNT, VST and C17 are no longer supported.
 (N64 aliases to NTT63 and VST aliases to VSTv3)
 
 BKT   - Basecase + Karatsuba + Toom-Cook
 BBP   - Bailey-Borwein-Plouffe Digit Extraction for Pi
-SFT   - Small In-Cache FFT (v2 or v3)
 SFTv4 - Small In-Cache FFTv4
 SNT   - Small In-Cache NTT63/N63
 SVT   - Small In-Cache VSTv3/VT3
-FFT   - Fast Fourier Transform (v2 or v3)
 FFTv4 - Fast Fourier Transform (version 4)
 NTT63 - Classic 64-bit NTT (version 2)
 N63   - (alias of NTT63)
@@ -258,6 +313,7 @@ Custom Compute:
                      [-C:{compress}] or [-compress:{compress}]
                      [-verify:{0 or 1}]
                      [-mode:{mode}]
+                     [-noSMT]
                      [-TD:{tasks}]
                      [-PF:{framework}]
                      [-MA:{allocator}]
@@ -370,6 +426,17 @@ Digit Output:
     the digit output.
 
 
+Suppress SMT:
+
+    -noSMT
+
+    Disables the use of SMT. This sets the computation to use no more than one
+    thread per physical core.
+
+    This option will override both the Task Decomposition (-TD) and Parallel
+    Framework (-PF) options. So it should be specified before either of those.
+
+
 Task Decomposition:
 
     -TD:{tasks}
@@ -403,6 +470,11 @@ Parallel Framework:
         -PF:winpool     Use the Windows Thread Pool.      (only available on Windows)
         -PF:cilk        Use Cilk Plus work-stealing.      (not available everywhere)
         -PF:tbb         Use Thread Building Blocks (TBB). (not available everywhere)
+
+    Note that the (-noSMT) option requires that the parallel framework support
+    core affinity. Only "taskqueue" and "pushpool" support core affinity. Thus
+    (-noSMT) will only function correctly if the framework is set to one of
+    those, or omitted - in which it will default to Push Pool.
 
     Note that there is no way to set framework-specific settings via the
     command line. So they will be left at their default values. You can only

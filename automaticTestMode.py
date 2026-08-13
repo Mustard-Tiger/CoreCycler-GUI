@@ -30,11 +30,13 @@ def load_automatic_test_mode_config(ui):
             ui.automaticTestMode_maxValue_spinBox.setValue(15)  # Default value
         
         # Increment By (SpinBox)
+        ui.automaticTestMode_incrementBy_spinBox.setSpecialValueText('Default')
         try:
-            increment_by = int(atm.get('incrementby', '1'))
+            increment_by_text = atm.get('incrementby', 'Default')
+            increment_by = 0 if increment_by_text.strip().lower() == 'default' else int(increment_by_text)
             ui.automaticTestMode_incrementBy_spinBox.setValue(increment_by)
         except ValueError:
-            ui.automaticTestMode_incrementBy_spinBox.setValue(1)  # Default value
+            ui.automaticTestMode_incrementBy_spinBox.setValue(0)
         
         # Repeat Core On Error (Checkbox)
         repeat_core = atm.get('repeatcoreonerror', '0')
@@ -56,7 +58,8 @@ def load_automatic_test_mode_config(ui):
         ui.automaticTestMode_enableAutomaticAdjustment_checkBox.setChecked(False)
         ui.automaticTestMode_startValues_lineEdit.setText('Default')
         ui.automaticTestMode_maxValue_spinBox.setValue(15)
-        ui.automaticTestMode_incrementBy_spinBox.setValue(1)
+        ui.automaticTestMode_incrementBy_spinBox.setSpecialValueText('Default')
+        ui.automaticTestMode_incrementBy_spinBox.setValue(0)
         ui.automaticTestMode_repeatCoreOnError_checkBox.setChecked(False)
         ui.automaticTestMode_enableResumeAfterUnexpectedExit_checkBox.setChecked(False)
         ui.automaticTestMode_waitBeforeAutomaticResume_spinBox.setValue(120)
@@ -86,7 +89,8 @@ def apply_automatic_test_mode_config(ui):
     atm['maxvalue'] = str(ui.automaticTestMode_maxValue_spinBox.value())
     
     # Increment By (SpinBox)
-    atm['incrementby'] = str(ui.automaticTestMode_incrementBy_spinBox.value())
+    increment_by = ui.automaticTestMode_incrementBy_spinBox.value()
+    atm['incrementby'] = 'Default' if increment_by == 0 else str(increment_by)
     
     # Repeat Core On Error (Checkbox)
     atm['repeatcoreonerror'] = '1' if ui.automaticTestMode_repeatCoreOnError_checkBox.isChecked() else '0'

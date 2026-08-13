@@ -1,4 +1,60 @@
 import configparser
+import winreg
+
+from PyQt6 import QtWidgets
+
+
+FASTEST_ONLY_VERSIONS = {'2021', '2024'}
+
+
+def update_linpack_mode_availability(ui):
+    """Keep the mode control aligned with the selected Linpack version."""
+    fastest_only = ui.linpack_version_comboBox.currentText() in FASTEST_ONLY_VERSIONS
+    if fastest_only:
+        ui.linpack_mode_comboBox.setCurrentText('Fastest')
+        ui.linpack_mode_comboBox.setToolTip(
+            'Linpack 2021 and 2024 always use FASTEST (AVX2).'
+        )
+    else:
+        ui.linpack_mode_comboBox.setToolTip('Select the instruction/performance mode.')
+    ui.linpack_mode_comboBox.setEnabled(not fastest_only)
+
+
+def _processor_name():
+    try:
+        with winreg.OpenKey(
+            winreg.HKEY_LOCAL_MACHINE,
+            r'HARDWARE\DESCRIPTION\System\CentralProcessor\0',
+        ) as key:
+            return str(winreg.QueryValueEx(key, 'ProcessorNameString')[0])
+    except OSError:
+        return ''
+
+
+def validate_linpack_selection(ui, parent=None):
+    """Warn about a known unsupported old-MKL mode on AMD processors."""
+    is_linpack = ui.general_stressTestProgram_radioButton_linpack.isChecked()
+    processor_name = _processor_name().lower()
+    is_problem_combination = (
+        ui.linpack_version_comboBox.currentText() == '2018'
+        and ui.linpack_mode_comboBox.currentText().lower() == 'slowest'
+        and ('amd' in processor_name or 'ryzen' in processor_name)
+    )
+    if not is_linpack or not is_problem_combination:
+        return True
+
+    answer = QtWidgets.QMessageBox.warning(
+        parent,
+        'Linpack 2018 SLOWEST Compatibility',
+        'Linpack 2018 SLOWEST can exit with “Intel MKL ERROR: CPU 1 is not '
+        'supported” on modern AMD Ryzen processors. No stress test will run if '
+        'that happens.\n\nUse MEDIUM or FASTEST, or choose Linpack 2019/2024, '
+        'unless you specifically want to retry this combination.',
+        QtWidgets.QMessageBox.StandardButton.Yes |
+        QtWidgets.QMessageBox.StandardButton.Cancel,
+        QtWidgets.QMessageBox.StandardButton.Cancel,
+    )
+    return answer == QtWidgets.QMessageBox.StandardButton.Yes
 
 def load_linpack_config(ui):
     """
@@ -29,6 +85,8 @@ def load_linpack_config(ui):
         ui.linpack_version_comboBox.setCurrentIndex(0)
         ui.linpack_mode_comboBox.setCurrentIndex(0)
         ui.linpack_memory_comboBox.setCurrentIndex(0)
+
+    update_linpack_mode_availability(ui)
 
 def apply_linpack_config(ui):
     """

@@ -1,7 +1,7 @@
 y-cruncher - Euler's Constant to the eXtReMe
 
-Version: 0.8.5 Build 9539
-Copyright 2008-2024 by Alexander J. Yee
+Version: 0.8.7 Build 9547
+Copyright 2008-2025 by Alexander J. Yee
 E-mail: a-yee@u.northwestern.edu
 Website: www.numberworld.org
 
@@ -48,5 +48,5 @@ other tortious action, arising out of or in connection with the use or
 performance of this software.
 
 
-May 20, 2024
+October 11, 2025
 Alexander J. Yee

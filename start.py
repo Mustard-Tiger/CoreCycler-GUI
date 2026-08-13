@@ -5,8 +5,14 @@ from PyQt6.QtWidgets import QApplication, QMainWindow, QMessageBox
 from mainwindow import Ui_MainWindow
 
 def run_corecycler(main_window):
-    exe_dir = os.path.dirname(sys.executable) if getattr(sys, 'frozen', False) else os.getcwd()
-    subprocess.Popen('Run CoreCycler.bat', cwd=exe_dir)
+    exe_dir = (os.path.dirname(sys.executable) if getattr(sys, 'frozen', False)
+               else os.path.dirname(os.path.abspath(__file__)))
+    launcher = os.path.join(exe_dir, 'Run CoreCycler.bat')
+    if not os.path.isfile(launcher):
+        QMessageBox.critical(main_window, "CoreCycler Not Found",
+                             f"CoreCycler launcher not found:\n{launcher}")
+        return
+    subprocess.Popen([launcher], cwd=exe_dir)
 
 if __name__ == "__main__":
     # Initialize the PyQt6 application

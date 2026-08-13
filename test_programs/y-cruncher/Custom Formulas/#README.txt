@@ -363,8 +363,8 @@ to use two different algorithms.
 Zeta(5):
 
 Fastest Pair:
-    Zeta(5) - Y.Zhao
-    Zeta(5) - BBP-Kruse
+    Zeta(5) - Zhi-Wei Sun (2025)
+    Zeta(5) - BBP Kruse
 
 Dependent Set:
     Zeta(5) - Broadhurst

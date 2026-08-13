@@ -1,5 +1,45 @@
 import configparser
 
+from PyQt6 import QtWidgets
+
+
+def _selected_modes(ui):
+    modes = []
+    if ui.aida64_mode_cache_checkBox.isChecked():
+        modes.append('Cache')
+    if ui.aida64_mode_cpu_checkBox.isChecked():
+        modes.append('CPU')
+    if ui.aida64_mode_fpu_checkBox.isChecked():
+        modes.append('FPU')
+    if ui.aida64_mode_ram_checkBox.isChecked():
+        modes.append('RAM')
+    return modes
+
+
+def clear_aida64_mode_warning(ui):
+    if _selected_modes(ui):
+        ui.aida64_label.setStyleSheet('')
+
+
+def validate_aida64_selection(ui, parent=None):
+    """Require an explicit AIDA64 mode whenever AIDA64 is selected."""
+    if not ui.general_stressTestProgram_radioButton_aida64.isChecked():
+        return True
+    if _selected_modes(ui):
+        clear_aida64_mode_warning(ui)
+        return True
+
+    ui.tabWidget.setCurrentWidget(ui.aida64_tab)
+    ui.aida64_label.setStyleSheet('color: #c62828;')
+    ui.aida64_mode_cache_checkBox.setFocus()
+    QtWidgets.QMessageBox.warning(
+        parent,
+        'Select an AIDA64 Test Mode',
+        'Select at least one AIDA64 stress-test mode: Cache, CPU, FPU, or RAM. '
+        'You may select multiple modes.',
+    )
+    return False
+
 def load_aida64_config(ui):
     """
     Load settings from the [Aida64] section of config.ini into the GUI.
@@ -57,15 +97,7 @@ def apply_aida64_config(ui):
     aida64 = config['Aida64']
     
     # Apply mode: collect checked modes and join with ', '
-    modes = []
-    if ui.aida64_mode_cache_checkBox.isChecked():
-        modes.append('Cache')
-    if ui.aida64_mode_cpu_checkBox.isChecked():
-        modes.append('CPU')
-    if ui.aida64_mode_fpu_checkBox.isChecked():
-        modes.append('FPU')
-    if ui.aida64_mode_ram_checkBox.isChecked():
-        modes.append('RAM')
+    modes = _selected_modes(ui)
     aida64['mode'] = ', '.join(modes)
     
     # Apply useAvx: '1' if checked, '0' otherwise

@@ -3,17 +3,15 @@ A free, simple and lightweight app for monitoring memory timings on Ryzen platfo
 
 # System Requirements
 - AMD Ryzen, Threadripper or EPYC processor
-- .NET Framework 4.5 or newer (3.5 for the legacy version)
-- WinRing0 (bundled with the app)
-- InpOut (bundled with the app), used for 64bit OS
-- WinIo (bundled with the app), used for 32bit OS
-- Supported OS: Windows XP*/2003*/Vista/7/8/10 (32bit and 64bit)
-  Note: Windows XP and 2003 are only supported with the legacy version
+- .NET Framework 4.5 or newer
+- PawnIO (bundled with the app)
+- InpOut (bundled with the app)
+- Supported OS: Windows 10/11 (64bit)
 
 # Installation
 Extract the downloaded archive anywhere on the disk.
-InpOut64 (WinIo32 for 32bit OS) driver gets automatically installed on first launch.
-Location of the installed driver is /System32/drivers/inpout64.sys (/System32/drivers/WinIo32.sys for 32bit OS).
+InpOut64 driver gets automatically installed on first launch.
+Location of the installed driver is /System32/drivers/inpout64.sys.
 
 To uninstall the driver you may use a manual method or a utility such as Autoruns for Windows.
 
@@ -45,7 +43,7 @@ The feature can be disabled from the Options dialog. The interval is user-config
 
 # Themes
 Supports light and dark modes, which can be changed runtime.
-Go to Options and enavle or disable dark theme. Save.
+Go to Options and select the desired theme. Save.
 
 # Debug Mode
 When certain parameters are read wrong or not displayed at all, a handy debug window provides an essential info which might help the developer.

@@ -106,7 +106,7 @@ function Write-LogEntry {
 function Remove-StartupTask {
     Write-Text('Removing the startup task "' + $taskPath + '\' + $taskName + '"')
     Write-Text('')
-    Unregister-ScheduledTask -TaskName $taskName -TaskPath $taskPath -Confirm:$false
+    Unregister-ScheduledTask -TaskName $taskName -TaskPath $taskPath -Confirm:$false -ErrorAction SilentlyContinue
 }
 
 
@@ -143,7 +143,16 @@ function Wait-ForKeyOrTimeout {
     )
 
     for ($i = $timeout; $i -ge 0; $i--) {
-        Write-Text("`r" + ($i.ToString() + ' seconds... (Press any key to immediately continue)').PadRight(54, ' ')) -NoNewline
+        $message = "`r" + ($i.ToString() + ' seconds... (Press any key to immediately continue)').PadRight(54, ' ')
+
+        # Only log the first entry
+        if ($i -eq $timeout) {
+            Write-Text($message) -NoNewline
+        }
+        else {
+            Write-Host($message) -NoNewline
+        }
+        
         
         if ([System.Console]::KeyAvailable) {
             [void][System.Console]::ReadKey($true)
@@ -154,7 +163,7 @@ function Wait-ForKeyOrTimeout {
         Start-Sleep -Seconds 1
     }
     
-            Write-Text("`r" + ('0 seconds... (Press any key to immediately continue)').PadRight(54, ' ')) -NoNewline
+    Write-Text("`r" + ('0 seconds... (Press any key to immediately continue)').PadRight(54, ' ')) -NoNewline
 }
 
 
@@ -210,7 +219,7 @@ try {
 
 
 
-    if (!(Test-Path $autoModeFile -PathType Leaf)) {
+    if (!(Test-Path -LiteralPath $autoModeFile -PathType Leaf)) {
         Write-Text('The .automode file does not exist!')
         Write-Text('The file is needed to be able to continue the testing process, aborting.')
         Write-Text('(Looking for: ' + $autoModeFile + ')')
@@ -231,30 +240,42 @@ try {
     $reader = [System.IO.File]::OpenText($autoModeFile)
     $autoModeFileContentString = $reader.ReadToEnd().Trim()
     $reader.Close()
-    $autoModeFileContent = @($autoModeFileContentString -Split '\r?\n')
 
-    if (!$autoModeFileContent -or $autoModeFileContent.Count -lt 5) {
-        throw [AutoModeResumeFailedException] 'Possible corruption detected, the .automode file doesn''t contain all required information!'
+
+    try {
+        $autoModeInfoFromJson = ConvertFrom-Json $autoModeFileContentString
+    }
+    catch {
+        throw [AutoModeResumeFailedException] ('Possible file corruption detected, could not parse the .automode file!' + [Environment]::NewLine + 'Reason: ' + $_.Exception.Message)
     }
 
-    $fileTimestamp     = [UInt64] $autoModeFileContent[0]
-    $coreTested        = [Int] $autoModeFileContent[1]
-    $logFileCoreCycler = [String] $autoModeFileContent[2]
-    $logFileStressTest = [String] $autoModeFileContent[3]
-    $voltageInfo       = [String] $autoModeFileContent[4]
-    $waitBeforeResume  = $(if ($autoModeFileContent.Length -gt 5) { [Int] $autoModeFileContent[5] } else { 0 })     # Optional
 
+    # We have some required properties
+    @('fileTimestamp', 'lastCoreTested', 'logFileCoreCycler', 'logFileStressTest', 'voltageValues') | ForEach-Object {
+        if (!($autoModeInfoFromJson -and ($autoModeInfoFromJson | Get-Member $_))) {
+            throw [AutoModeResumeFailedException] ('The .automode file is missing the entry "' + $_ + '"!')
+        }
+    }
+
+
+    $fileTimestamp     = [UInt64] $autoModeInfoFromJson.fileTimestamp
+    $lastCoreTested    = [Int] $autoModeInfoFromJson.lastCoreTested
+    $logFileCoreCycler = [String] $autoModeInfoFromJson.logFileCoreCycler
+    $logFileStressTest = [String] $autoModeInfoFromJson.logFileStressTest
+    $voltageValues     = [Array] $autoModeInfoFromJson.voltageValues
+    $waitBeforeResume  = $(if ($autoModeInfoFromJson -and ($autoModeInfoFromJson | Get-Member 'waitBeforeResume')) { [Int] $autoModeInfoFromJson.waitBeforeResume } else { 0 })     # Optional
+    
     Write-Text('Timestamp:           ' + $fileTimestamp)
-    Write-Text('Tested Core:         ' + $coreTested)
+    Write-Text('Tested Core:         ' + $lastCoreTested)
     Write-Text('Logfile CoreCycler:  ' + $logFileCoreCycler)
     Write-Text('Logfile Stress Test: ' + $logFileStressTest)
-    Write-Text('Voltage Settings:    ' + $voltageInfo)
+    Write-Text('Voltage Settings:    ' + $voltageValues)
     Write-Text('Wait before resume:  ' + $waitBeforeResume)
     Write-Text('')
 
 
     # Try to use the log file
-    if (!(Test-Path $logFileCoreCycler -PathType Leaf)) {
+    if (!(Test-Path -LiteralPath $logFileCoreCycler -PathType Leaf)) {
         Write-Text('The CoreCycler log file doesn''t exist, generating')
         Write-Text('')
         $null = New-Item $logFileCoreCycler -ItemType File -Force
@@ -295,9 +316,10 @@ try {
 
     # Start the script now
     Write-Text('Command:')
-    Write-Text('Start-Process -PassThru -FilePath ''cmd.exe'' -ArgumentList @(''/C'', (''"' + $scriptRoot + '\Run CoreCycler.bat" ' + $coreTested + ' && "' + $scriptRoot + '\CoreCycler.exe"''))')
+    Write-Text('Start-Process -PassThru -FilePath "' + $env:ComSpec + '" -WorkingDirectory "' + $env:SystemDrive + '" -ArgumentList @(''/C'', "' + $scriptRoot + '\Run CoreCycler.bat", ' + $lastCoreTested + ')')
 
-    $process = Start-Process -PassThru -FilePath 'cmd.exe' -ArgumentList @('/C', ('"' + $scriptRoot + '\Run CoreCycler.bat" ' + $coreTested + ' && "' + $scriptRoot + '\CoreCycler.exe"'))
+    # We need to set the working directory if the current path contains wildcard characters
+    $process = Start-Process -PassThru -FilePath "$env:ComSpec" -WorkingDirectory "$env:SystemDrive" -ArgumentList @('/C', ('"' + $scriptRoot + '\Run CoreCycler.bat"'), $lastCoreTested)
 }
 
 # Don't throw an error

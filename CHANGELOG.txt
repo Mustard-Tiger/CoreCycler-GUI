@@ -1,0 +1,115 @@
+CoreCycler-GUI - Updated Release Changelog
+==========================================
+
+Release date: 8 August 2026
+
+This release modernises the original, unmaintained CoreCycler-GUI Beta and
+integrates it with the current CoreCycler engine and supporting components.
+
+
+CORECYCLER ENGINE
+-----------------
+
+- Updated the bundled CoreCycler engine to version 0.11.0.4.
+- Integrated the current CoreCycler configuration format, presets, helper
+  scripts and stress-test program definitions.
+- Added compatibility handling for older or incomplete GUI-generated config
+  files so newly required settings are restored without discarding valid user
+  selections.
+- Fixed GUI-launched Automatic Test Mode so the y-cruncher binary is resolved
+  correctly and the test can start without an unset $yCruncherBinary error.
+- Restored the Automatic Test Mode scheduled-task and temporary Curve Optimizer
+  warning panels when CoreCycler is launched through the GUI.
+- Updated Ryzen automatic Curve Optimizer adjustment support to use
+  ryzen-smu-cli.
+- Updated supporting CoreCycler tools and helper scripts.
+
+
+STRESS-TEST PROGRAMS
+--------------------
+
+- Updated the current y-cruncher package and retained y-cruncher 0.7.10.9513
+  as the separately selectable legacy version.
+- Added y-cruncher's automatic binary selection mode.
+- CoreCycler now reports the actual CPU-specific y-cruncher binary selected by
+  automatic mode when the test starts.
+- Updated the y-cruncher workload list for the current version and kept the
+  legacy workload list separate.
+- Corrected legacy y-cruncher defaults so BKT and BBP are not incorrectly used
+  as the only tests for every selected mode.
+- Added independent current/legacy y-cruncher test selections. Controls that do
+  not apply to the selected y-cruncher version are now disabled to avoid mixing
+  incompatible workloads.
+- Standardised visible GUI naming from "yCruncher" to "y-cruncher".
+- Updated Prime95 and its supporting configuration.
+- Updated Linpack integration for the bundled 2018, 2019, 2021 and 2024
+  versions.
+- Fixed Linpack 2018 SLOWEST mode failing to launch or write its log correctly.
+- Corrected Linpack logging where paths or filenames containing wildcard-like
+  characters could cause failures.
+- Suppressed the harmless "Invalid menu handle" close-button warning produced
+  when stress tests are launched from the GUI terminal environment.
+- Retained AIDA64 support while continuing to require users to obtain the
+  Portable Engineer edition directly from AIDA64.
+- Added validation that prevents an AIDA64 test from starting until at least
+  one test mode (Cache, CPU, FPU or RAM) has been selected.
+
+
+GUI BEHAVIOUR AND USABILITY
+--------------------------
+
+- Start now applies the current on-screen settings automatically. Users no
+  longer need to remember to click Apply Settings before starting a test.
+- Kept Apply Settings available for users who want to save changes without
+  immediately starting a test.
+- Added an Automatic Test Mode reminder:
+  "Remember to untick Automatic Test Mode if you are not using it!"
+- Improved y-cruncher mode selection so choosing a preset updates the displayed
+  workload selections immediately.
+- Added and integrated controls for the current and legacy y-cruncher modes and
+  workloads.
+- Added GUI access to SMUDebugTool and ryzen-smu-cli where applicable.
+- Removed obsolete PBO2Tuner and pbotest/pbocli GUI entries and bundled files,
+  matching their removal from current CoreCycler.
+- Re-centred the remaining single button on the bottom row of the Tools tab.
+- Clarified the update-check tooltip. It now states that the check is for
+  CoreCycler releases and that CoreCycler updates may or may not be compatible
+  with this version of the GUI.
+- Fixed the obscured Logging tab Log Level value.
+- Enlarged or rearranged controls so values and labels are no longer clipped,
+  including:
+    * General: Max Iterations and Delay Between Cores
+    * Automatic: Max CO Value Allowed and CO Adjustment Increment
+    * Prime95: Time to Test Each FFT Size
+    * AIDA64: Max Memory percentage
+- Made Load Config and Save Config matching sizes and aligned them
+  symmetrically.
+- Made various spacing, label and control-size adjustments for clearer layout.
+
+
+TOOLS AND COMPONENTS
+--------------------
+
+- Updated ZenTimings from version 1.35 to version 1.39.
+- Updated SMUDebugTool from version 1.40 to version 1.41.
+- Added the current ryzen-smu-cli files required by CoreCycler.
+- Retained IntelVoltageControl, performance-counter setup, Event Log setup,
+  BoostTester and the other supported CoreCycler utilities.
+- Fixed the IntelVoltageControl button so it requests administrator rights,
+  runs the read-only "show" command and leaves the command window open. This
+  replaces the previous attempt to launch the command-line utility without an
+  argument or the elevation required to initialise WinRing0.
+- Removed obsolete PBO2Tuner and pbotest/pbocli components.
+
+
+PACKAGING
+---------
+
+- Rebuilt CoreCycler.exe with the updated GUI and engine integration.
+- Added a reproducible build-release.ps1 packaging script.
+- Added a clean distributable layout modelled on the original
+  CoreCycler-GUI-Beta release.
+- Excluded development sources, build caches, logs, temporary files, old
+  revision executables and backup tool versions from the distributable.
+- Excluded the locally installed AIDA64 trial binaries from redistribution;
+  the package contains instructions for users to install their own copy.
