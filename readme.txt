@@ -1,3 +1,11 @@
+----------------------------------
+Aug 2026
+
+This release updates the original, unmaintained CoreCycler-GUI Beta and
+integrates it with the current CoreCycler engine and supporting components.
+
+----------------------------------
+
 HERE IS A GUIDE FOR CORECYCLER-GUI. PLEASE MAKE SURE YOU FOLLOW THE STEPS. 
 https://youtu.be/GWfc_CxLYgY
 
