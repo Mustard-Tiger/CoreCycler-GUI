@@ -1,11 +1,11 @@
 import os
 
 def launch_readme():
-    """Open readme.txt from the base directory."""
+    """Open the CoreCycler GUI documentation from the base directory."""
     try:
-        os.startfile('readme.txt')
+        os.startfile('README.md')
     except Exception as e:
-        print(f"Error opening readme.txt: {e}")
+        print(f"Error opening README.md: {e}")
 
 def launch_license():
     """Open LICENSE from the base directory."""
