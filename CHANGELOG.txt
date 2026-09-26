@@ -10,7 +10,8 @@ integrates it with the current CoreCycler engine and supporting components.
 CORECYCLER ENGINE
 -----------------
 
-- Updated the bundled CoreCycler engine to version 0.11.0.4.
+- Updated the bundled engine to a post-v0.11.0.3 CoreCycler development
+  revision, internally identified as v0.11.0.4.
 - Integrated the current CoreCycler configuration format, presets, helper
   scripts and stress-test program definitions.
 - Added compatibility handling for older or incomplete GUI-generated config

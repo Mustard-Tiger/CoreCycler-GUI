@@ -1025,7 +1025,7 @@ disableCpuUtilizationCheck = $disableCpuUtilizationCheckDefault
 # Debug setting to enable the use of Windows Performance Counters for the CPU utilization check
 #
 # This setting controls if the Windows Performance Counters should be used, which can be corrupted for unknown
-# reasons. Please see the readme.txt and the /tools/enable_performance_counter.bat file for a possible way
+# reasons. Please see CORECYCLER-README.txt and the /tools/enable_performance_counter.bat file for a possible way
 # to fix these issues. There's no guarantee that it works though.
 #
 # Default: $useWindowsPerformanceCountersForCpuUtilizationDefault
@@ -1042,7 +1042,7 @@ useWindowsPerformanceCountersForCpuUtilization = $useWindowsPerformanceCountersF
 # this setting.
 #
 # Note that this also enables the usage of the Windows Performance Counters, which may not work on certain systems.
-# They can become corrupted, please see the readme.txt and the /tools/enable_performance_counter.bat file for a possible way
+# They can become corrupted, please see CORECYCLER-README.txt and the /tools/enable_performance_counter.bat file for a possible way
 # to fix these issues. There's no guarantee that it works though.
 #
 # Default: $enableCpuFrequencyCheckDefault
@@ -12519,7 +12519,7 @@ try {
             Write-Host 'FATAL ERROR: Could not get the localized Performance Process Counter name!' -ForegroundColor Red
             Write-Host
             Write-Host 'You may need to re-enable the Performance Process Counter (PerfProc).' -ForegroundColor Red
-            Write-Host 'Please see the "Troubleshooting / FAQ" section in the readme.txt.' -ForegroundColor Red
+            Write-Host 'Please see the "Troubleshooting / FAQ" section in CORECYCLER-README.txt.' -ForegroundColor Red
             Write-Host
             Write-Host 'The full thrown error message:' -ForegroundColor Yellow
 
@@ -12570,7 +12570,7 @@ try {
             Write-Host 'FATAL ERROR: Could not access the Windows Performance Process Counter!' -ForegroundColor Red
             Write-Host
             Write-Host 'You may need to re-enable the Performance Process Counter (PerfProc).' -ForegroundColor Red
-            Write-Host 'Please see the "Troubleshooting / FAQ" section in the readme.txt.' -ForegroundColor Red
+            Write-Host 'Please see the "Troubleshooting / FAQ" section in CORECYCLER-README.txt.' -ForegroundColor Red
             Write-Host
             Write-Host 'The localized counter name that was tried to access was:' -ForegroundColor Yellow
             Write-Host ('"' + $counterNames['FullName'] + '"') -ForegroundColor Yellow

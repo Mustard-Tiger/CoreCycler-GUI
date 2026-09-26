@@ -19,12 +19,14 @@ New-Item -ItemType Directory -Path $outputDirectory | Out-Null
 
 $rootFiles = @(
     "CHANGELOG.txt",
+    "CORECYCLER-README.txt",
     "CoreCycler.exe",
     "icon.ico",
     "LICENSE",
-    "readme.txt",
+    "README.md",
     "Run CoreCycler.bat",
-    "script-corecycler.ps1"
+    "script-corecycler.ps1",
+    "THIRD_PARTY_NOTICES.md"
 )
 
 foreach ($file in $rootFiles) {

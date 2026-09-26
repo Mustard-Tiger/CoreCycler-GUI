@@ -1,14 +1,15 @@
-----------------------------------
-Aug 2026
+CORECYCLER ENGINE DOCUMENTATION
+===============================
 
-This release updates the original, unmaintained CoreCycler-GUI Beta and
-integrates it with the current CoreCycler engine and supporting components.
+This is the upstream CoreCycler documentation written by sp00n and retained
+for users of the bundled CoreCycler engine.
 
-----------------------------------
+Upstream project:
+https://github.com/sp00n/corecycler
 
-HERE IS A GUIDE FOR CORECYCLER-GUI. PLEASE MAKE SURE YOU FOLLOW THE STEPS. 
-https://youtu.be/GWfc_CxLYgY
+For documentation about this maintained graphical interface, see README.md.
 
+The upstream documentation follows below.
 
 --------------
 - CORECYCLER -
@@ -266,6 +267,12 @@ The licenses of all included programs remain unaffected by this and retain their
 
 - IntelVoltageControl
   https://github.com/jamestut/IntelVoltageControl?tab=MIT-1-ov-file
+
+- ryzen-smu-cli
+  https://github.com/rawhide-kobayashi/ryzen-smu-cli?tab=GPL-3.0-1-ov-file
+
+- SMUDebugTool
+  https://github.com/irusanov/SMUDebugTool?tab=GPL-3.0-1-ov-file
 
 
 
